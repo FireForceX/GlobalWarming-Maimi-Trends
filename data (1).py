@@ -4,7 +4,7 @@ import requests
 
 # Define the location coordinates
 latitude = 39.7456
-longitude = -97.0892
+longitude = -97.0892 #maimi, most predictable weather
 
 # Get the grid points
 response = requests.get(f"https://api.weather.gov/points/{latitude},{longitude}")
@@ -18,14 +18,10 @@ forecast_url = f"https://api.weather.gov/gridpoints/{grid_id}/{grid_x},{grid_y}/
 forecast_response = requests.get(forecast_url)
 forecast_data = forecast_response.json()
 
-# Print the forecast
-for period in forecast_data['properties']['periods']:
-    print(f"{period['name']}: {period['detailedForecast']}")
-
 
 x_cords = [1] #add points by making a comma and an integer
 
-y_cords = [1] #add points by making a comma and an integer
+y_cords = [forecast_data] #add points by making a comma and an integer
 
 
 x_sum = sum(x_cords)
