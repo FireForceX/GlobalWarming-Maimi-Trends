@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 import requests
 
 # Define the location coordinates
-latitude = 39.7456
-longitude = -97.0892 #maimi, most predictable weather
+latitude = 25.761681
+longitude = -80.191788 #maimi, most predictable weather
 
 # Get the grid points
 response = requests.get(f"https://api.weather.gov/points/{latitude},{longitude}")
@@ -15,13 +15,16 @@ grid_y = data['properties']['gridY']
 
 # Get the forecast
 forecast_url = f"https://api.weather.gov/gridpoints/{grid_id}/{grid_x},{grid_y}/forecast"
-forecast_response = requests.get(forecast_url)
+forecast_response = requests.  get(forecast_url)
 forecast_data = forecast_response.json()
 
+temperatures = [period['temperature'] for period in forecast_data['properties']['periods']]
+print("Temperatures:", temperatures) # Print to check values
+# Create your lists for plotting
+y_cords = list(range(1, len(temperatures) + 1)) 
+x_cords = temperatures
 
-x_cords = [1] #add points by making a comma and an integer
 
-y_cords = [forecast_data] #add points by making a comma and an integer
 
 
 x_sum = sum(x_cords)
@@ -29,6 +32,7 @@ x_sum = sum(x_cords)
 y_sum = sum(y_cords)
 
 slope = y_sum/x_sum
+
 y_intercept = 0
 for i in range(1, len(x_cords)):  
   y_intercept = y_intercept + (y_cords[i-1] - (slope * x_cords[i-1]))
@@ -39,7 +43,9 @@ plt.plot(x_cords, y_cords, label='Original Data')
 plt.plot(x_cords, y, label='MAD Line')
 
 for x in x_cords:
-  plt.scatter(x, y_cords[x_cords.index(x)], color='red', label=('Point',x))
+  label_str = f"Point ({x}, {y_cords[x_cords.index(x)]})"
+  plt.scatter(x, y_cords[x_cords.index(x)], color='red', label=label_str)
+
 
 plt.legend()
 plt.show()
