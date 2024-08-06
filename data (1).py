@@ -3,8 +3,12 @@ import matplotlib.pyplot as plt
 import requests
 
 # Define the location coordinates
-latitude = 25.761681
-longitude = -80.191788 #maimi, most predictable weather
+
+#latitude = 25.761681 #37.7749 - SF
+#longitude = -80.191788 #122.4194 - SF
+
+latitude = 37.7749
+longitude = -122.4194
 
 # Get the grid points
 response = requests.get(f"https://api.weather.gov/points/{latitude},{longitude}")
@@ -39,13 +43,9 @@ for i in range(1, len(x_cords)):
 
 y = [(slope * x) + y_intercept for x in x_cords] 
 
-plt.plot(x_cords, y_cords, label='Original Data')
+#plt.plot(x_cords, y_cords, label='Original Data')
 plt.plot(x_cords, y, label='MAD Line')
 
 for x in x_cords:
   label_str = f"Point ({x}, {y_cords[x_cords.index(x)]})"
   plt.scatter(x, y_cords[x_cords.index(x)], color='red', label=label_str)
-
-
-plt.legend()
-plt.show()
