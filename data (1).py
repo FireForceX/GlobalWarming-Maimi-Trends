@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-
+import numpy as np  
 import requests
 
 # Define the location coordinates
@@ -43,9 +43,22 @@ for i in range(1, len(x_cords)):
 
 y = [(slope * x) + y_intercept for x in x_cords] 
 
-#plt.plot(x_cords, y_cords, label='Original Data')
+coefficients = np.polyfit(x_cords, y_cords, 1)  # Degree 1 for linear fit
+poly = np.poly1d(coefficients)
+y_regression = poly(x_cords)  # Calculate y values for regression line
+
+
+
+plt.plot(x_cords, y_cords, label='Original Data')
 plt.plot(x_cords, y, label='MAD Line')
+plt.plot(x_cords, y_regression, label='Linear Regression')
 
 for x in x_cords:
   label_str = f"Point ({x}, {y_cords[x_cords.index(x)]})"
   plt.scatter(x, y_cords[x_cords.index(x)], color='red', label=label_str)
+
+
+
+
+plt.legend()
+plt.show()
